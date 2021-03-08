@@ -9,7 +9,7 @@ router.post('/signup', (req, res) => {
   const { username, password } = req.body;
   //Server side validation on empty fields
   if (username === '' || password === '') {
-    res.state(400).json('missing fields')
+    res.status(400).json('missing fields')
     return;
   }
   //Server side validation on password constrain
@@ -80,5 +80,26 @@ router.get('/loggedin', (req, res) => {
   }
   res.status(200).json({});
 });
+
+//Route that will be called from our front-end
+//For google authentication
+router.get(
+  "/auth/google",
+  passport.authenticate("google", {
+    scope: [
+      "https://www.googleapis.com/auth/userinfo.profile",
+      "https://www.googleapis.com/auth/userinfo.email"
+    ]
+  })
+);
+
+//Route will be called from the google servers
+router.get(
+  "/auth/google/callback",
+  passport.authenticate("google", {
+    successRedirect: `${process.env.CLIENT_HOSTNAME}/`,
+    failureRedirect: `${process.env.CLIENT_HOSTNAME}/login`
+  })
+);
 
 module.exports = router;
