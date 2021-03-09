@@ -34,7 +34,8 @@ router.post('/recipes', (req, res) => {
     notes,
     ingredients: ingredientsArray,
     preparation_time,
-    cook_time
+    cook_time,
+    userId: req.user._id
   }).then((response) => {
       res.status(200).json(response);
   }).catch((err) => {
@@ -64,6 +65,17 @@ router.get('/recipes/:id', (req, res) => {
     res.status(500).json(`Error occured ${err}`);
   });
 })
+
+router.get('/user/recipes', (req, res) => {
+ 
+  Recipe.find({ userId: req.user._id})
+    .then((theRecipeFromDB) => {
+    res.status(200).json(theRecipeFromDB);
+  }).catch((err) => {
+    res.status(500).json(`Error occured ${err}`);
+  });
+})
+
 
 //Update
 router.put('/recipes/:id', (req, res) => {

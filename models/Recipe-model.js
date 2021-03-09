@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const recipeSchema = new Schema({
+  userId:String,
   name: String,
   directions: String,
   imageUrl: String,
