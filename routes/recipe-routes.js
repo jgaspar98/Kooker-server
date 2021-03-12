@@ -80,6 +80,7 @@ router.get('/user/recipes', (req, res) => {
 //Update
 router.put('/recipes/:id', (req, res) => {
   const RecipeWithNewData = req.body;
+  console.log(req.body)
 
   let ingredientsArray = '';
 
@@ -88,6 +89,8 @@ router.put('/recipes/:id', (req, res) => {
   } else {
     ingredientsArray = req.body.ingredients
   }
+
+
 
   Recipe.findByIdAndUpdate(req.params.id,
     {
@@ -109,6 +112,7 @@ router.put('/recipes/:id', (req, res) => {
 //route to add image
 
 router.post('/upload', fileUpload.single('file'), (req, res) => {
+  console.log(req.body)
   try {
     res.status(200).json({ fileUrl: req.file.path });
   }
